@@ -1,0 +1,12 @@
+CHIP OverflowDetecter16 {
+    IN c15, c16, oper, signed;
+    OUT of;
+
+    PARTS:
+    Xor(a=c15, b=c16, out=tsigned);
+    Xor(a=c16, b=oper, out=tunsigned);
+    Not(in=signed, out=unsigned);
+    And(a=tsigned, b=signed, out=t1);
+    And(a=tunsigned, b=unsigned, out=t2);
+    Or(a=t1, b=t2, out=of);
+}

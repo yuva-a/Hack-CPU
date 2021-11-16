@@ -1,0 +1,8 @@
+CHIP SingleBitRegister {
+    IN in, load;
+    OUT out;
+
+    PARTS:
+    Mux2to1(in0=outDFF, in1=in, s=load, out=inDFF);
+    DFF(in=inDFF, out=outDFF, out=out);
+}

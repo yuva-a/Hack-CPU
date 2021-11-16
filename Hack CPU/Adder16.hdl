@@ -1,0 +1,13 @@
+//16 bit adder
+CHIP Adder16 {
+    IN x[16] , y[16] , oper , signed ;
+    OUT sum[16] , cy , of ;
+
+    PARTS:
+    Inverter16(in=y, bit=oper, out=y1);
+    And16(a=x, b=y1, out=g);
+    Xor16(a=x, b=y1, out=p);
+    CLA4H16(p=p, g=g, c=c, c0=oper, c[15..15]=c15, carry=c16, carry=cy);
+    Xor16(a=p, b=c, out=sum);
+    OverflowDetecter16(c15=c15, c16=c16, oper=oper, of=of, signed=signed);
+}

@@ -1,0 +1,17 @@
+CHIP HackComputer {
+    IN reset;
+
+    PARTS:
+
+    //Instruction memory
+    ROM32K(address=pc, out=instruction);
+
+    HackCPU(inM=inM, instruction=instruction, reset=reset, outM=data, writeM=writeM, addressM[0..5]=addressRAM, pc=pc);
+
+    //ROM chip as Data memory
+    RAM64(in=data, load=writeM, address=addressRAM, out=inM);
+
+    
+    
+}
+

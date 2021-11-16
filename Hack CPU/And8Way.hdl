@@ -1,0 +1,21 @@
+//and of all 8 elements
+CHIP And8Way {
+   IN in[8];
+   OUT out;
+
+   PARTS:
+   And(a=in[0..0], b=in[1..1], out=AandB);
+
+   And(a=in[2..2], b=in[3..3], out=CandD);
+
+   And(a=in[4..4], b=in[5..5], out=EandF);
+
+   And(a=in[6..6], b=in[7..7], out=GandH);
+
+   And(a=AandB, b=CandD, out=ABandCD);
+
+   And(a=EandF, b=GandH, out=EFandGH);
+
+   // and of all
+   And(a=ABandCD, b=EFandGH, out=out);
+}

@@ -1,0 +1,37 @@
+CHIP HackALU16 {
+    IN x[16], y[16], zx, nx, zy, ny, f, no; //input
+    OUT out[16], zr, ng; //output
+
+    PARTS:
+
+    //16bit mux
+    Mux16(in0=x, in1=false, s=zx, out=x1);
+
+    //16bit mux
+    Mux16(in0=y, in1=false, s=zy, out=y1);
+    
+
+    //16 bit xor
+    Inverter16(in=x1, bit=nx, out=x2);
+
+    //16 bit xor
+    Inverter16(in=y1, bit=ny, out=y2);
+
+    //16bit adder
+    Adder16(x=x2, y=y2, signed=true, oper=false, sum=out1);
+
+    //16bit adder
+    And16(a=x2, b=y2, out=out0);
+
+    //mux16 using f
+    Mux16(in0=out0, in1=out1, s=f, out=outN);
+
+    //mux 
+    Inverter16(in=outN, bit=no, out=out, out[0..7]=outT0, out[8..15]=outT1, out[15]=ng); //ng is the sign
+
+    //no flag
+    Or8Way(in=outT0, out=notzr0);
+    Or8Way(in=outT1, out=notzr1);
+    Or(a=notzr0, b=notzr1, out=notzr);
+    Not(in=notzr, out=zr); 
+}

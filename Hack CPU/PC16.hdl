@@ -1,0 +1,16 @@
+CHIP PC16 {
+    IN in[16], reset, j; //deocede and reset
+    OUT out[16]; //val to CPU
+
+    PARTS:
+    
+    //Mux PC
+    Mux4Way16(a=AdderOUT, b=in, c=false, d=false, sel[0]=j, sel[1]=reset, out=inPC);
+
+    //PC Register
+    Register16(in=inPC, load=true, out=outPC, out=out);
+
+    //Adder16
+    Adder16(x=outPC, y[0]=true, y[1..15]=false, oper=false, sum=AdderOUT);
+  
+}

@@ -1,0 +1,42 @@
+CHIP InstructionDecoder {
+    IN instruction[16];
+    OUT selMux1, selMux2,
+        writeA, writeD, writeM,
+        zx, nx, zy, ny, f, no, 
+        jump[8]; 
+
+    PARTS:
+
+    Not(in=instruction[15], out=selMux1, out=isAType);
+
+    And(a=instruction[15], b=instruction[12], out=selMux2);
+
+    And(a=instruction[15], b=instruction[4], out=writeD);
+
+    And(a=instruction[15], b=instruction[5], out=writeAT);
+    Or(a=writeAT, b=isAType, out=writeA);
+
+    And(a=instruction[15], b=instruction[3], out=writeM);
+
+    And(a=instruction[15], b=instruction[11], out=zx);
+    And(a=instruction[15], b=instruction[10], out=nx);
+    And(a=instruction[15], b=instruction[9], out=zy);
+    And(a=instruction[15], b=instruction[8], out=ny);
+    And(a=instruction[15], b=instruction[7], out=f);
+    And(a=instruction[15], b=instruction[6], out=no);
+
+    Not(in=instruction[0], out=notI0);
+    Not(in=instruction[1], out=notI1);
+    Not(in=instruction[2], out=notI2);
+
+    And4Way(a=instruction[15], b=instruction[2], c=instruction[1], d=instruction[0], out=jump[7]);
+    And4Way(a=instruction[15], b=notI2,          c=notI1,          d=instruction[0], out=jump[1]);
+    And4Way(a=instruction[15], b=notI2,          c=instruction[1], d=notI0,          out=jump[2]);
+    And4Way(a=instruction[15], b=notI2,          c=instruction[1], d=instruction[0], out=jump[3]);
+    And4Way(a=instruction[15], b=instruction[2], c=notI1,          d=notI0,          out=jump[4]);
+    And4Way(a=instruction[15], b=instruction[2], c=notI1,          d=instruction[0], out=jump[5]);
+    And4Way(a=instruction[15], b=instruction[2], c=instruction[1], d=notI0,          out=jump[6]);
+    Not(in=true, out=jump[0]);
+
+    
+}

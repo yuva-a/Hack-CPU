@@ -1,0 +1,13 @@
+@a
+D=M
+@b
+D=D-M
+@JUMP
+D;JGT
+D=-D
+(JUMP)
+@c
+M=D
+(END_PROGRAM)
+@END_PROGRAM
+0;JMP

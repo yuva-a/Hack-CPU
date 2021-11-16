@@ -1,0 +1,30 @@
+CHIP CLA4 {
+    IN p[4] , g[4] , c0 ;
+    OUT c[5] ;
+
+    PARTS:
+    //CLA carry are c1 c2 c3 c4
+
+    And(a=c0, b=c0, out=c[0]);
+
+    And(a=p[0], b=c0, out=p0);
+    Or(a=p0, b=g[0], out=c[1]); 
+
+    And4Way(a=p[0] , b=p[1] , c=c0, d=true, out=p10);
+    And(a=g[0] , b=p[1], out=p11) ;
+    Or4Way(a=p10, b=p11, c=g[1], d=false, out=c[2]); 
+
+    And4Way(a=p[0], b=p[1], c=p[2], d=c0, out=p20);
+    And4Way(a=g[0], b=p[1], c=p[2], d=true, out=p21);
+    And(a=g[1], b=p[2], out=p22);
+    Or4Way(a=p20, b=p22, c=p21, d=g[2], out=c[3]); 
+
+    And4Way(a=p[0], b=p[1], c=p[2], d=p[3], out=p300);
+    And(a=p300, b=c0, out=p30);
+    And4Way(a=g[0], b=p[1], c=p[2], d=p[3], out=p31);
+    And4Way(a=true, b=g[1], c=p[2], d=p[3], out=p32);
+    And(a=g[2], b=p[3], out=p33);
+    Or4Way(a=p30, b=p31, c=p32, d=p33, out=p34);
+    Or(a=p34, b=g[3], out=c[4]); 
+
+}

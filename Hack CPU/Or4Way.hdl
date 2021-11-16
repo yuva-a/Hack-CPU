@@ -1,0 +1,13 @@
+CHIP Or4Way {
+    IN a , b , c , d ;
+    OUT out ;
+
+    PARTS:
+    //t1 = a+b
+    //t2 = c+d
+    //out = t1+t2 = a+b+c=d
+    
+    Or(a=a, b=b, out=t1);
+    Or(a=c, b=d, out=t2);
+    Or(a=t1, b=t2, out=out);
+}
